@@ -1,6 +1,7 @@
 package sistema;
 
 import dominio.ABBGenerico;
+import dominio.Contador;
 import dominio.Mercaderia;
 import dominio.MercaderiaPorCodigo;
 import dominio.MercaderiaPorId;
@@ -56,7 +57,21 @@ public class ImplementacionSistema implements Sistema  {
 
     @Override
     public Retorno buscarMercaderiaPorId(String id) {
-        return Retorno.noImplementada();
+        if (id == null || id.trim().isEmpty()) {
+            return Retorno.error1("");
+        }
+
+        Contador contador = new Contador();
+        MercaderiaPorId mercaderiaPorId = mercaderiasPorId.obtenerConPasos(
+                new MercaderiaPorId(new Mercaderia(id, "", "", false, Categoria.OTROS)),
+                contador
+        );
+
+        if (mercaderiaPorId == null) {
+            return Retorno.error2("");
+        }
+
+        return Retorno.ok(contador.getValor(), mercaderiaPorId.getMercaderia().toValorString());
     }
 
     @Override

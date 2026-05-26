@@ -51,4 +51,28 @@ public class ABBGenerico<T extends Comparable<T>> {
 
         return obtenerRec(nodo.getIzq(), dato);
     }
+
+    public T obtenerConPasos(T dato, Contador contador) {
+        return obtenerConPasosRec(raiz, dato, contador);
+    }
+
+    private T obtenerConPasosRec(NodoABB<T> nodo, T dato, Contador contador) {
+        if (nodo == null) {
+            return null;
+        }
+
+        contador.incrementar();
+
+        int comparacion = dato.compareTo(nodo.getDato());
+
+        if (comparacion == 0) {
+            return nodo.getDato();
+        }
+
+        if (comparacion > 0) {
+            return obtenerConPasosRec(nodo.getDer(), dato, contador);
+        }
+
+        return obtenerConPasosRec(nodo.getIzq(), dato, contador);
+    }
 }

@@ -1,0 +1,14 @@
+package dominio;
+
+public class Contador {
+
+    private int valor;
+
+    public void incrementar() {
+        valor++;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+}
