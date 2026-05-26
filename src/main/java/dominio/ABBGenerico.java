@@ -29,4 +29,26 @@ public class ABBGenerico<T extends Comparable<T>> {
             }
         }
     }
+
+    public T obtener(T dato) {
+        return obtenerRec(raiz, dato);
+    }
+
+    private T obtenerRec(NodoABB<T> nodo, T dato) {
+        if (nodo == null) {
+            return null;
+        }
+
+        int comparacion = dato.compareTo(nodo.getDato());
+
+        if (comparacion == 0) {
+            return nodo.getDato();
+        }
+
+        if (comparacion > 0) {
+            return obtenerRec(nodo.getDer(), dato);
+        }
+
+        return obtenerRec(nodo.getIzq(), dato);
+    }
 }
