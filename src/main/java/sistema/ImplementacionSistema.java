@@ -1,11 +1,18 @@
 package sistema;
 
+import dominio.ABBGenerico;
+import dominio.Mercaderia;
+import dominio.MercaderiaPorCodigo;
+import dominio.MercaderiaPorId;
+import dominio.ValidadorMercaderia;
 import interfaz.*;
 
 public class ImplementacionSistema implements Sistema  {
 
     private boolean inicializado;
     private int maxCentros;
+    private ABBGenerico<MercaderiaPorId> mercaderiasPorId;
+    private ABBGenerico<MercaderiaPorCodigo> mercaderiasPorCodigo;
 
     @Override
     public Retorno inicializarSistema(int maxCentros) {
@@ -15,13 +22,36 @@ public class ImplementacionSistema implements Sistema  {
 
         this.inicializado = true;
         this.maxCentros = maxCentros;
+        this.mercaderiasPorId = new ABBGenerico<>();
+        this.mercaderiasPorCodigo = new ABBGenerico<>();
 
         return Retorno.ok();
     }
 
     @Override
     public Retorno registrarMercaderia(String id, String codigo, String descripcion, boolean fragil, Categoria categoria) {
-        return Retorno.noImplementada();
+        if (ValidadorMercaderia.hayParametrosVaciosONull(id, codigo, descripcion, categoria)) {
+            return Retorno.error1("");
+        }
+
+        if (!ValidadorMercaderia.codigoTieneFormatoValido(codigo)) {
+            return Retorno.error2("");
+        }
+
+        Mercaderia buscada = new Mercaderia(id, codigo, descripcion, fragil, categoria);
+
+        if (mercaderiasPorId.obtener(new MercaderiaPorId(buscada)) != null) {
+            return Retorno.error3("");
+        }
+
+        if (mercaderiasPorCodigo.obtener(new MercaderiaPorCodigo(buscada)) != null) {
+            return Retorno.error4("");
+        }
+
+        mercaderiasPorId.insertar(new MercaderiaPorId(buscada));
+        mercaderiasPorCodigo.insertar(new MercaderiaPorCodigo(buscada));
+
+        return Retorno.ok();
     }
 
     @Override
