@@ -2,6 +2,7 @@ package sistema;
 
 import dominio.ABBGenerico;
 import dominio.Contador;
+import dominio.ListaGenerica;
 import dominio.Mercaderia;
 import dominio.MercaderiaPorCodigo;
 import dominio.MercaderiaPorId;
@@ -76,12 +77,14 @@ public class ImplementacionSistema implements Sistema  {
 
     @Override
     public Retorno listarMercaderiasPorIdAscendente() {
-        return Retorno.noImplementada();
+        ListaGenerica<MercaderiaPorId> lista = mercaderiasPorId.aplanarAscendente();
+        return Retorno.ok(lista.serializarConSeparador("|"));
     }
 
     @Override
     public Retorno listarMercaderiasPorIdDescendente() {
-        return Retorno.noImplementada();
+        ListaGenerica<MercaderiaPorId> lista = mercaderiasPorId.aplanarDescendente();
+        return Retorno.ok(lista.serializarConSeparador("|"));
     }
 
     @Override

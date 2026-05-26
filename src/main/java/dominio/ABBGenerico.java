@@ -75,4 +75,32 @@ public class ABBGenerico<T extends Comparable<T>> {
 
         return obtenerConPasosRec(nodo.getIzq(), dato, contador);
     }
+
+    public ListaGenerica<T> aplanarAscendente() {
+        ListaGenerica<T> lista = new ListaGenerica<>();
+        aplanarAscendenteRec(raiz, lista);
+        return lista;
+    }
+
+    private void aplanarAscendenteRec(NodoABB<T> nodo, ListaGenerica<T> lista) {
+        if (nodo != null) {
+            aplanarAscendenteRec(nodo.getIzq(), lista);
+            lista.agregarAlFinal(nodo.getDato());
+            aplanarAscendenteRec(nodo.getDer(), lista);
+        }
+    }
+
+    public ListaGenerica<T> aplanarDescendente() {
+        ListaGenerica<T> lista = new ListaGenerica<>();
+        aplanarDescendenteRec(raiz, lista);
+        return lista;
+    }
+
+    private void aplanarDescendenteRec(NodoABB<T> nodo, ListaGenerica<T> lista) {
+        if (nodo != null) {
+            aplanarDescendenteRec(nodo.getDer(), lista);
+            lista.agregarAlFinal(nodo.getDato());
+            aplanarDescendenteRec(nodo.getIzq(), lista);
+        }
+    }
 }
