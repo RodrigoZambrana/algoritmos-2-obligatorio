@@ -4,9 +4,19 @@ import interfaz.*;
 
 public class ImplementacionSistema implements Sistema  {
 
+    private boolean inicializado;
+    private int maxCentros;
+
     @Override
     public Retorno inicializarSistema(int maxCentros) {
-        return Retorno.noImplementada();
+        if (maxCentros <= 3) {
+            return Retorno.error1("");
+        }
+
+        this.inicializado = true;
+        this.maxCentros = maxCentros;
+
+        return Retorno.ok();
     }
 
     @Override
